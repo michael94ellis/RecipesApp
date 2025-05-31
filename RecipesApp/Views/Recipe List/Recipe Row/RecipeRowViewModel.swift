@@ -25,7 +25,7 @@ class RecipeRowViewModel: ObservableObject {
     @Published var viewState: ViewState = .loadingImage
         
     init(recipe: Recipe,
-         networkClient: NetworkSession = URLSession.shared,
+         networkClient: NetworkSession = AppNetworkClient.shared,
          imageCacher: ImageCacheProtocol = ImageCacheManager.shared) {
         self.recipe = recipe
         self.networkClient = networkClient
@@ -62,7 +62,7 @@ class RecipeRowViewModel: ObservableObject {
             return
         }
         do {
-            let (data, response) = try await networkClient.data(from: url)
+            let (data, response) = try await networkClient.fetchData(from: url)
             
             guard let httpResponse = response as? HTTPURLResponse,
                   httpResponse.statusCode == 200 else {

@@ -8,7 +8,5 @@
 import Foundation
 
 protocol NetworkSession {
-    func data(from url: URL) async throws -> (Data, URLResponse)
+    func fetchData(from url: URL) async throws -> (Data, URLResponse)
 }
-
-extension URLSession: NetworkSession { }

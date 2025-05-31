@@ -11,7 +11,7 @@ import SwiftUI
 class RecipeListViewModel: ObservableObject {
     
     /// This should be injected for dependency inversion
-    let networkClient: AppNetworkClient
+    let networkClient: NetworkSession
     
     enum ViewState {
         case loading
@@ -30,7 +30,7 @@ class RecipeListViewModel: ObservableObject {
     #endif
     
     /// Using Dependency Injection would be cleaner and easier for testing and previews
-    init(networkClient: AppNetworkClient = AppNetworkClient()) {
+    init(networkClient: NetworkSession = AppNetworkClient()) {
         self.networkClient = networkClient
         Task {
             await loadRecipes()

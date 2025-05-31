@@ -7,11 +7,13 @@
 
 import Foundation
 
-class AppNetworkClient {
+class AppNetworkClient: NetworkSession {
     
-    private let session: NetworkSession
+    static let shared = AppNetworkClient()
     
-    init(session: NetworkSession = URLSession.shared) {
+    private let session: URLSession
+    
+    init(session: URLSession = URLSession.shared) {
         self.session = session
     }
     
