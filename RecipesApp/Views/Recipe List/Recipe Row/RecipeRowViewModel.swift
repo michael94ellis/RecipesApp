@@ -31,18 +31,16 @@ class RecipeRowViewModel: ObservableObject {
         self.networkClient = networkClient
         self.imageCacheManager = imageCacher
         
-        attemptToLoadImage()
+        Task {
+            await attemptToLoadImage()
+        }
     }
     
-    private func attemptToLoadImage() {
+    func attemptToLoadImage() async {
         if let smallImageURL = recipe.photoURLSmall {
-            Task {
-                await fetchImage(for: smallImageURL)
-            }
+            await fetchImage(for: smallImageURL)
         } else if let largeImageURL = recipe.photoURLLarge {
-            Task {
-                await fetchImage(for: largeImageURL)
-            }
+            await fetchImage(for: largeImageURL)
         } else {
             self.viewState = .noImage
         }
