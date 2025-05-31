@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@MainActor
 class RecipeDetailViewModel: ObservableObject {
     
     enum ViewState {
@@ -30,18 +31,16 @@ class RecipeDetailViewModel: ObservableObject {
         self.networkClient = networkClient
         self.imageCacheManager = imageCacher
         
-        attemptToLoadImage()
+        Task {
+            await attemptToLoadImage()
+        }
     }
     
-    private func attemptToLoadImage() {
+    func attemptToLoadImage() async {
         if let smallImageURL = recipe.photoURLLarge {
-            Task {
-                await fetchImage(for: smallImageURL)
-            }
+            await fetchImage(for: smallImageURL)
         } else if let largeImageURL = recipe.photoURLSmall {
-            Task {
-                await fetchImage(for: largeImageURL)
-            }
+            await fetchImage(for: largeImageURL)
         } else {
             self.viewState = .noImage
         }
@@ -70,7 +69,7 @@ class RecipeDetailViewModel: ObservableObject {
             }
             if let fetchedImage = UIImage(data: data) {
                 self.viewState = .loadedImage(fetchedImage)
-                try imageCacheManager.cacheImage(fetchedImage, for: urlString)
+                try? imageCacheManager.cacheImage(fetchedImage, for: urlString)
             }
         } catch {
             self.viewState = .noImage

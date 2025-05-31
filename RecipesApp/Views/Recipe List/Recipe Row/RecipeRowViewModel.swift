@@ -69,7 +69,7 @@ class RecipeRowViewModel: ObservableObject {
             }
             if let fetchedImage = UIImage(data: data) {
                 self.viewState = .loadedImage(fetchedImage)
-                try imageCacheManager.cacheImage(fetchedImage, for: urlString)
+                try? imageCacheManager.cacheImage(fetchedImage, for: urlString)
             }
         } catch {
             self.viewState = .noImage

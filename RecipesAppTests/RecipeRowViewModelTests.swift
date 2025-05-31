@@ -92,4 +92,31 @@ struct RecipeRowViewModelTests {
             #expect(true)
         }
     }
+    
+    @Test func downloadInvalidImageData() async throws {
+        let testURL = "https://example.com/image.png"
+        let mockRecipe = Recipe(cuisine: "", name: "", uuid: "", photoURLLarge: nil, photoURLSmall: testURL, sourceURL: nil, youtubeURL: nil)
+        
+        let mockNetworkClient = MockNetworkClient()
+        let mockCacheManager = MockImageCacheManager(imageStore: [:])
+        let viewModel = await RecipeRowViewModel(recipe: mockRecipe, networkClient: mockNetworkClient, imageCacher: mockCacheManager)
+        
+        mockNetworkClient.mockData = Data("Invalid_Data".utf8) // Malformed Data
+        mockNetworkClient.mockResponse = HTTPURLResponse(url: URL(string: testURL)!,
+                                                          statusCode: 200,
+                                                          httpVersion: nil,
+                                                          headerFields: nil)
+        
+        await viewModel.attemptToLoadImage()
+        
+        switch await viewModel.viewState {
+        case .loadedImage(_):
+            Issue.record(Comment(stringLiteral: "Invalid state encountered"))
+        case .loadingImage:
+            Issue.record(Comment(stringLiteral: "Loading state encountered"))
+        case .noImage:
+            #expect(true)
+        }
+    }
+
 }
