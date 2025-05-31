@@ -14,7 +14,7 @@ https://d3jbb8n5wk0qxi.cloudfront.net/take-home-project.html
     Malformed data: Ignore all recipes and show an error state.
     Empty data: Show an empty state indicating no recipes are available.
 [X] Include a README
-[] Include unit tests focusing on core logic like data fetching and caching. UI Tests not required.
+[X] Include unit tests focusing on core logic like data fetching and caching. UI Tests not required.
     
 ## Project Constraints
 

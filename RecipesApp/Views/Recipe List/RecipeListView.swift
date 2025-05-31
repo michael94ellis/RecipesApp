@@ -163,15 +163,18 @@ struct RecipeListView: View {
     let mockViewModel = RecipeListViewModel()
     mockViewModel.recipeRequest = .malformedData
     return RecipeListView(viewModel: mockViewModel)
+        .environmentObject(AppNavigationManager())
 }
 
 #Preview("Normal view") {
     // Will access server for data and then use cache
     RecipeListView(viewModel: RecipeListViewModel())
+        .environmentObject(AppNavigationManager())
 }
 
 #Preview("Empty view") {
     let mockViewModel = RecipeListViewModel()
     mockViewModel.recipeRequest = .emptyData
     return RecipeListView(viewModel: mockViewModel)
+        .environmentObject(AppNavigationManager())
 }
