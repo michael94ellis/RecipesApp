@@ -6,13 +6,12 @@
 //
 
 import SwiftUI
-import Combine
 
 @MainActor
 class RecipeListViewModel: ObservableObject {
     
     /// This should be injected for dependency inversion
-    let networkClient: NetworkSession
+    let networkClient: AppNetworkClient
     
     enum ViewState {
         case loading
@@ -22,18 +21,27 @@ class RecipeListViewModel: ObservableObject {
     
     @Published var viewState: ViewState = .loading
     
-    init(networkClient: NetworkSession = URLSession.shared) {
+    #if DEBUG
+    /// DEBUG ONLY: This would only be used for making previews and ought to handled in a way that doesn't litter the codebase with Debug Macros which slow down build time
+    /// Tradeoff - I used a debug macro to make other network request variants accessible
+    var recipeRequest: RecipeRequest = .allRecipes
+    #else
+    let recipeRequest: RecipeRequest = .allRecipes
+    #endif
+    
+    /// Using Dependency Injection would be cleaner and easier for testing and previews
+    init(networkClient: AppNetworkClient = AppNetworkClient()) {
         self.networkClient = networkClient
         Task {
             await loadRecipes()
         }
     }
 
-    func loadRecipes(from url: URL? = RecipeRequest.allRecipes.url) async {
+    func loadRecipes() async {
 
         self.viewState = .loading
         
-        guard let url else {
+        guard let url = recipeRequest.url else {
             // This should not happen, crash in debug builds
             assertionFailure("Invalid URL")
             // Generic error message to not alarm the user
@@ -52,7 +60,7 @@ class RecipeListViewModel: ObservableObject {
     /// URL param is expected to be from `RecipeRequest` enum
     private func fetchRecipes(from url: URL) async throws -> [Recipe] {
         
-        let (data, response) = try await networkClient.data(from: url)
+        let (data, response) = try await networkClient.fetchData(from: url)
         
         guard let httpResponse = response as? HTTPURLResponse,
               httpResponse.statusCode == 200 else {

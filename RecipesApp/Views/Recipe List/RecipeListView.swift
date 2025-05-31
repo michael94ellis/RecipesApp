@@ -9,7 +9,11 @@ import SwiftUI
 
 struct RecipeListView: View {
     
-    @StateObject private var viewModel = RecipeListViewModel()
+    @ObservedObject private var viewModel: RecipeListViewModel
+    
+    init(viewModel: RecipeListViewModel) {
+        self.viewModel = viewModel
+    }
     
     var body: some View {
         NavigationView {
@@ -37,21 +41,58 @@ struct RecipeListView: View {
     
     private func listContentView(_ recipes: [Recipe]) -> some View {
         List(recipes, id: \.uuid) { recipe in
-            // TODO: Implement Row View
-            Text(recipe.name)
+            RecipeRow(viewModel: .init(recipe: recipe))
         }
         .overlay {
             // Empty list state can be handled in many different ways, this is a simple way
             if recipes.isEmpty {
-                Text("No recipes available.")
+                emptyListView
             }
         }
-        .listStyle(.sidebar)
+        .listStyle(.inset)
         .refreshable {
             Task {
                 await viewModel.loadRecipes()
             }
         }
+    }
+    
+    private var emptyListView: some View {
+        VStack(spacing: 16) {
+            Image(systemName: "fork.knife")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 80, height: 80)
+                .foregroundStyle(.purple.opacity(0.8))
+            
+            Text("No recipes available")
+                .font(.title2)
+                .fontWeight(.semibold)
+                .foregroundColor(.primary.opacity(0.8))
+            
+            Text("Try pulling down to refresh or tap the button below.")
+                .font(.body)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 24)
+            
+            Button(action: {
+                Task {
+                    await viewModel.loadRecipes()
+                }
+            }) {
+                Label("Refresh", systemImage: "arrow.clockwise")
+                    .font(.headline)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(.purple.opacity(0.7))
+                    .foregroundColor(.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+            }
+            .padding(.horizontal, 40)
+        }
+        .padding()
+        .clipShape(RoundedRectangle(cornerRadius: 16))
     }
     
     /// A reusable subview with retry logic for list error/empty states
@@ -62,28 +103,29 @@ struct RecipeListView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 50, height: 50)
-                .foregroundColor(.red)
+                .foregroundColor(.orange)
                         
             Text(message)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 24)
                 .font(.title2)
                 .fontWeight(.semibold)
-                .foregroundColor(.red)
+                .foregroundColor(.orange)
 
             Button(action: {
                 Task {
                     await viewModel.loadRecipes()
                 }
-            }, label: {
-                Text("Retry")
-                    .fontWeight(.bold)
+            }) {
+                Label("Refresh", systemImage: "arrow.clockwise")
+                    .font(.headline)
+                    .padding()
                     .frame(maxWidth: .infinity)
-            })
-            .buttonStyle(.borderedProminent)
-            .tint(.purple)
-            .controlSize(.large)
-            .padding(.horizontal, 32)
+                    .background(.purple.opacity(0.7))
+                    .foregroundColor(.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+            }
+            .padding(.horizontal, 40)
         }
         .padding(24)
         .background(
@@ -94,4 +136,21 @@ struct RecipeListView: View {
         .padding(24)
         Spacer()
     }
+}
+
+#Preview("Error view") {
+    let mockViewModel = RecipeListViewModel()
+    mockViewModel.recipeRequest = .malformedData
+    return RecipeListView(viewModel: mockViewModel)
+}
+
+#Preview("Normal view") {
+    // Will access server for data and then use cache
+    RecipeListView(viewModel: RecipeListViewModel())
+}
+
+#Preview("Empty view") {
+    let mockViewModel = RecipeListViewModel()
+    mockViewModel.recipeRequest = .emptyData
+    return RecipeListView(viewModel: mockViewModel)
 }
