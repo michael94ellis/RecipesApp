@@ -35,6 +35,20 @@ struct RecipeListView: View {
                         .font(.largeTitle)
                         .fontWeight(.semibold)
                 }
+                #if DEBUG
+                // Debug menu
+                ToolbarItem(placement: .topBarTrailing) {
+                    Menu {
+                        ForEach(RecipeRequest.allCases, id: \.self) { state in
+                            Button(action: { viewModel.recipeRequest = state }) {
+                                Text(state.displayName)
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "slider.horizontal.3")
+                    }
+                }
+                #endif
             }
         }
     }

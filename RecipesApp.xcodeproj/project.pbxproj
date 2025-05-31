@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		2FCE56812DEB891500B38A9D /* Requirements.md in Resources */ = {isa = PBXBuildFile; fileRef = 2FCE56802DEB891500B38A9D /* Requirements.md */; };
+		2FCE56832DEB896C00B38A9D /* ReadMe.md in Resources */ = {isa = PBXBuildFile; fileRef = 2FCE56822DEB896C00B38A9D /* ReadMe.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		2FCE56482DEB707700B38A9D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +32,8 @@
 		2FCE56372DEB707500B38A9D /* RecipesApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecipesApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FCE56472DEB707700B38A9D /* RecipesAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipesAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FCE56512DEB707700B38A9D /* RecipesAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipesAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2FCE56802DEB891500B38A9D /* Requirements.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Requirements.md; sourceTree = "<group>"; };
+		2FCE56822DEB896C00B38A9D /* ReadMe.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ReadMe.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +82,8 @@
 		2FCE562E2DEB707500B38A9D = {
 			isa = PBXGroup;
 			children = (
+				2FCE56802DEB891500B38A9D /* Requirements.md */,
+				2FCE56822DEB896C00B38A9D /* ReadMe.md */,
 				2FCE56392DEB707500B38A9D /* RecipesApp */,
 				2FCE564A2DEB707700B38A9D /* RecipesAppTests */,
 				2FCE56542DEB707700B38A9D /* RecipesAppUITests */,
@@ -212,6 +221,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FCE56832DEB896C00B38A9D /* ReadMe.md in Resources */,
+				2FCE56812DEB891500B38A9D /* Requirements.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,6 +415,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -433,6 +445,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -454,7 +467,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KLQC884752;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.michaelrobertellis.RecipesAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -473,7 +486,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KLQC884752;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.michaelrobertellis.RecipesAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -491,6 +504,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KLQC884752;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.michaelrobertellis.RecipesAppUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -508,6 +522,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KLQC884752;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.michaelrobertellis.RecipesAppUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
