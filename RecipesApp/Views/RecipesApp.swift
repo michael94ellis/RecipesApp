@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct RecipesApp: App {
+    
+    @StateObject private var navigator = AppNavigationManager()
+    
     var body: some Scene {
         WindowGroup {
             RecipeListView(viewModel: RecipeListViewModel())
+                .environmentObject(navigator)
         }
     }
 }

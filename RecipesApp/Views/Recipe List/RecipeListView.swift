@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RecipeListView: View {
     
+    @EnvironmentObject var navigationManager: AppNavigationManager
     @ObservedObject private var viewModel: RecipeListViewModel
     
     init(viewModel: RecipeListViewModel) {
@@ -16,7 +17,7 @@ struct RecipeListView: View {
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack(path: $navigationManager.navigationPath) {
             VStack {
                 switch viewModel.viewState {
                 case .loading:
@@ -56,6 +57,9 @@ struct RecipeListView: View {
     private func listContentView(_ recipes: [Recipe]) -> some View {
         List(recipes, id: \.uuid) { recipe in
             RecipeRow(viewModel: .init(recipe: recipe))
+                .onTapGesture {
+                    navigationManager.navigate(to: recipe)
+                }
         }
         .overlay {
             // Empty list state can be handled in many different ways, this is a simple way
@@ -69,6 +73,9 @@ struct RecipeListView: View {
                 await viewModel.loadRecipes()
             }
         }
+        .navigationDestination(for: Recipe.self, destination: {
+            RecipeDetailView(viewModel: RecipeDetailViewModel(recipe: $0))
+        })
     }
     
     private var emptyListView: some View {
